@@ -1,0 +1,104 @@
+---
+title: "Data606 Project Proposal"
+author: "Mahmud Hasan Al Raji"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+
+# Data Preparation
+
+```{r }
+# Load libraries
+library(psych)
+library(dplyr)
+library(ggplot2)
+
+#Getting data
+data<-read.csv("https://raw.githubusercontent.com/Raji030/data606_project/main/twitchdata-update.csv",sep=",", header=TRUE)
+
+#Renaming variables
+data<-data %>% rename(Stream_time=Stream.time.minutes.,Followers_gained=Followers.gained,Mature_content=Mature)
+
+#Sub-setting data based on mature and non-mature content streaming
+mature_no <- data %>% filter(Mature_content =="False")
+mature_yes <- data %>% filter(Mature_content == "True")
+```
+
+# Research Question 
+
+Does streaming time predict followers gained on Twitch platform?
+
+Does mature content have significant effect on follower gain?
+
+# Cases
+
+Each case represents a Twitch streamer and there are 1000 observations in this data set.
+
+# Data Collection 
+
+This data is collected from a prepared data set via kaggle.com. The data will be stored on my GitHub in order to make the data reproducible.
+
+# Type of Study 
+
+This is an observational study. 
+
+# Data Source
+
+Original: https://www.kaggle.com/datasets/aayushmishra1512/twitchdata
+
+Project Source: https://raw.githubusercontent.com/Raji030/data606_project/main/twitchdata-update.csv
+
+# Dependent Variable
+
+The dependent variable is the follower gained and it is quantitative.
+
+# Independent Variable(s) 
+
+The streaming time (quantitative) and the mature content (qualitative) are the independent variables.
+
+# Relevant summary statistics
+
+Below are the summary statistics for the variables of our consideration:
+
+```{r }
+summary(data$Stream_time)
+```
+
+```{r}
+summary(data$Followers_gained)
+```
+
+```{r}
+summary(data$Mature_content)
+```
+
+```{r }
+table(data$Mature_content)
+```
+
+```{r}
+hist(data$Stream_time)
+```
+
+```{r }
+# Plotting relationship between Stream_time and Followers_gained
+ggplot(data, aes(x =Stream_time, y =Followers_gained)) + geom_smooth()
+```
+
+```{r }
+# Plotting Stream_time vs Followers_gained data for non-mature content streaming 
+ggplot(mature_no, aes(x =Stream_time, y =Followers_gained)) + geom_smooth()
+
+```
+
+```{r }
+#Plotting relationship between Stream_time and Followers_gained for mature content streaming
+ggplot(mature_yes, aes(x =Stream_time, y =Followers_gained)) + geom_smooth()
+
+```
+
+
+
+
+
